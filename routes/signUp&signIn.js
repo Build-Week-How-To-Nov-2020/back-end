@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken")
 router.post('/register', async (req, res, next)=>{
     try{
         const {username, password} = req.body
-        const user = await User.findBy({username})
+        const user = await User.findBy(username)
 
 
         if(user){
@@ -27,3 +27,5 @@ router.post('/register', async (req, res, next)=>{
         next(err)
     }
 })
+
+module.exports = router;

@@ -2,7 +2,7 @@
 exports.up = async function(knex) {
     await knex.schema.createTable("users", (table)=> {
         table.increments("id")
-        table.text("name").notNull().unique()
+        table.text("username").notNull().unique()
         table.text("password").notNull()
     })
 
@@ -10,12 +10,16 @@ exports.up = async function(knex) {
         table.increments("id")
         table.text("howToName")
         table.text("howToStory")
-        table.integer("users_id").references("id").inTable("users").onDelete("RESTRICT").onUpdate("CASCADE")
+        table.integer("users_id")
+            .references("id")
+            .inTable("users")
+            .onDelete("RESTRICT")
+            .onUpdate("CASCADE")
     })
   
 };
 
 exports.down = async function(knex) {
-   await knex.schema.droptTableIfExists("howTo")
+   await knex.schema.dropTableIfExists("howTo")
    await knex.schema.dropTableIfExists('users')
 };
