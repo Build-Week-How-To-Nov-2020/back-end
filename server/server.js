@@ -16,4 +16,17 @@ server.use(express.json())
 //server.use(``)
 //server.use(``)
 
+server.get('/', (req, res) => {
+    res.status(200).json({
+      status: 200,
+      message: 'Welcome'
+    });
+  });
+  
+  server.get('*', (req, res) => {
+    res.status(404).json({
+      message: 'Invalid routes'
+    });
+  });
+  
 module.exports = server;
