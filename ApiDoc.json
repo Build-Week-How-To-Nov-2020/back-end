@@ -93,13 +93,13 @@
             "200": {
               "description": "",
               "schema": {
-                "$ref": "#/definitions/LoginSample-Guideloginwithusername"
+                "$ref": "#/definitions/SignInSample-Guideloginwithusername"
               },
               "examples": {
                 "application/json; charset=utf-8": {
                   "success": true,
                   "statusCode": 200,
-                  "message": "Login succesful",
+                  "message": "SignIn succesful",
                   "body": {
                     "userId": 41,
                     "userName": "queenb",
