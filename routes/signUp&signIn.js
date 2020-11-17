@@ -42,7 +42,7 @@ router.post('/SignIn', async (req, res, next)=> {
             })
         }
 
-        const passwordValid = await bcrypt.compare(password, existingUser.password)
+        const passwordValid = await bcrypt.compareSync(password, existingUser.password)
 
         if(!passwordValid) {
             return res.status(401).json({
@@ -51,7 +51,7 @@ router.post('/SignIn', async (req, res, next)=> {
         }
 
         const token = jwt.sign({
-            userID: existingUser.id
+            userID: existingUser.id,
         }, process.env.JWT_SECRET)
 
         res.cookie("token", token)
