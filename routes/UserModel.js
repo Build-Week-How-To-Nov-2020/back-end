@@ -8,11 +8,11 @@ async function add(user){
 async function findByUserId(id){
     return await db("users")
         .select("username", "id")
-        .where("id", id)
+        .where("id",id)
 }
 
 async function findBy(username){
-    return db("users")
+    return await db("users")
         .select("username")
         .where("username", username)
         
