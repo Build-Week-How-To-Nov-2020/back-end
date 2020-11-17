@@ -7,14 +7,14 @@ const jwt = require("jsonwebtoken")
 router.post('/SignUp', async (req, res, next)=>{
     try{
         const {username, password} = req.body
-        // const user = await User.findBy(username)
+        const user = await User.findBy(username)
 
 
-        // if(user){
-        //     return res.status(409).json({
-        //         message: "Username is already taken"
-        //     })
-        // }
+        if(user){
+            return res.status(409).json({
+                message: "Username is already taken"
+            })
+        }
 
         const newUser = await User.add({
             username,
@@ -42,7 +42,7 @@ router.post('/SignIn', async (req, res, next)=> {
             })
         }
 
-        const passwordValid = await bcrypt.compareSync(password, existingUser.password)
+        const passwordValid = await bcrypt.compare(password, existingUser.password)
 
         if(!passwordValid) {
             return res.status(401).json({
