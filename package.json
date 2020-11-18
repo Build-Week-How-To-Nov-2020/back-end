@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon index.js",
+    "server": "cross-env PORT=8080 JWT_SECRET=\"keep it secret\" nodemon index.js",
     "dev": "nodemon",
     "start": "node index.js"
   },
