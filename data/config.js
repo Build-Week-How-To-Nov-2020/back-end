@@ -5,4 +5,4 @@ const knex = require('knex');
 
 const knexConfig = require('../knexfile.js')[dbenv];
 
-module.exports = knex(knexConfigs);
+module.exports = knex(knexConfig);
