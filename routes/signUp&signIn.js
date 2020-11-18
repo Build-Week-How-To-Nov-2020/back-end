@@ -54,7 +54,7 @@ router.post('/SignIn', async (req, res, next)=> {
         res.cookie("token", token)
 
         res.json({
-            message: `Welcome ${existingUser.username}`
+            message: `Welcome ${existingUser.username}`,token
         })
 
     }
