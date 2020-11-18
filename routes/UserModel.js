@@ -19,8 +19,26 @@ async function findBy(username){
         
 }
 
+async function findAllUsers(){
+    return await db("users")
+}
+
+async function findUser(id){
+    return await db("users")
+    .where("id", id)
+    .first("username", "id")
+}
+
+async function findUsersStories(id){
+    return await db("users")
+        
+}
+
+
 module.exports = {
     add,
     findBy,
-    findByUserId
+    findByUserId,
+    findAllUsers,
+    findUser,
 }

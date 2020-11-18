@@ -2,7 +2,8 @@ const router = require("express").Router()
 require("dotenv").config();
 const bcrypt = require("bcryptjs")
 const User = require("./UserModel")
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const { findBy } = require("./UserModel");
 
 
 router.post('/SignUp', async (req, res, next)=>{
@@ -63,6 +64,34 @@ router.post('/SignIn', async (req, res, next)=> {
     }
 })
 
+
+router.get('/', async (req, res,next)=> {
+    try{
+        const users = await User.find()
+        res.status(201).json(users)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+router.get('/:id', async (req,res,next)=> {
+    try{
+        const id = req.params.id;
+        const user = await User.findUser(id)
+
+        if(!user){
+            return res.status(401).json({
+                message: "This user does not exisit"
+            })
+        }
+
+        res.status(201).json(user)
+    }
+    catch(err){
+        next(err)
+    }
+})
 
 
 
