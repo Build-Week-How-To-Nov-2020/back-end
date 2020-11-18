@@ -15,7 +15,7 @@ async function findBy(username){
     return await db("users")
         //.select("username")
         .where("username", username)
-        .first("username","id")
+        .first("username","id", "password")
         
 }
 

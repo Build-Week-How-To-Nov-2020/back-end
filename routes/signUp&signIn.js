@@ -1,4 +1,5 @@
 const router = require("express").Router()
+require("dotenv").config();
 const bcrypt = require("bcryptjs")
 const User = require("./UserModel")
 const jwt = require("jsonwebtoken")
@@ -30,9 +31,7 @@ router.post('/SignUp', async (req, res, next)=>{
 
 
 router.post('/SignIn', async (req, res, next)=> {
-
     try{
-
         const {username, password} = req.body
         const existingUser = await User.findBy(username)
 
@@ -41,15 +40,13 @@ router.post('/SignIn', async (req, res, next)=> {
                 message: "Invalid Credentials"
             })
         }
-
+        console.log(existingUser)
         const passwordValid = await bcrypt.compareSync(password, existingUser.password)
-
         if(!passwordValid) {
             return res.status(401).json({
                 message: "That's not the password"
             })
         }
-
         const token = jwt.sign({
             userID: existingUser.id,
         }, process.env.JWT_SECRET)
