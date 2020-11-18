@@ -2,13 +2,15 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const User = require("./UserModel")
+const Guide = require("../data/models/guideModel")
 
 const router = express.Router()
 
 // get all guides
 router.get('/', async (request, response, next) => {
-    response.status(200).json({"message": "Hello World"})
+    let guides = await Guide.getGuides()
+
+    response.status(200).json({"message": "Hello World", "guides": guides})
 })
 
 // get guides for a user
