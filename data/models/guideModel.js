@@ -3,35 +3,50 @@ const db = require('../config')
 const Step = require("./stepModel")
 
 async function getGuides(guideId = false) {
-    let guides
-    if (guideId) {
-        guides = await db('guides').where('id', guideId)
-    } else {
-        guides = await db('guides')
+    try {
+        let guides
+        if (guideId) {
+            guides = await db('guides').where('id', guideId)
+        } else {
+            guides = await db('guides')
+        }
+
+        let steps = guides.map((guide) => {
+            return getStepRelation(guide)
+        })
+
+        return Promise.all(steps)
+            .then((values) => {
+                return values
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
-
-    let steps = guides.map((guide) => {
-        return getStepRelation(guide)
-    })
-
-    return Promise.all(steps)
-        .then((values) => {
-            return values
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+    catch (error) {
+        return error
+    }
 }
 
 async function createGuide(data) {
     // title, description, userId
-    let [id] = await db('guides').insert({title: data.title, description: data.description, userId: data.userId})
+    try {
+        let [id] = await db('guides').insert({title: data.title, description: data.description, userId: data.userId})
 
-    return id
+        return id
+    }
+    catch (error) {
+        return error
+    }
 }
 
 async function updateGuide(guideId, data) {
-    return db('guides').where('id', guideId).update({title: data.title, description: data.description, userId: data.userId})
+    try {
+        return db('guides').where('id', guideId).update({title: data.title, description: data.description, userId: data.userId})
+    }
+    catch (error) {
+        return error
+    }
 }
 
 async function deleteGuide(id) {
