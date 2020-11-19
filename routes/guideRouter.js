@@ -56,12 +56,12 @@ router.post('/', async (request, response, next) => {
             })
 
             // wait for all of the steps to finish creating then return the guide with it's steps
-            return Promise.all([steps])
+            Promise.all(steps)
                 .then( async (values) => {
                     return response.status(200).json({guide: await Guide.getGuides(guideId)})
                 })
                 .catch((error) => {
-                    console.log(error)
+                    console.error(error)
                 })
 
         } catch (error) {
@@ -74,18 +74,36 @@ router.post('/', async (request, response, next) => {
 
 // edit a guide
 router.put('/:guideId', async (request, response, next) => {
-    try {
+    let id = request.params.guideId
 
+    let data = {
+        title: request.body.title,
+        description: request.body.description,
+        userId: request.body.userId,
+        steps: request.body.steps || []
+    }
+
+    try {
+        // edit the guide
+        let guide = await Guide.updateGuide(id, data)
+
+        // edit the steps
+        let steps = data.steps.map((step) => {
+            return Step.updateStep(step.id, step)
+        })
+
+        // wait for the all the promises to finish then return the result
+        Promise.all(steps)
+            .then(async (values) => {
+                return response.status(200).json({guide: await Guide.getGuides(id)})
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }
     catch (error) {
         next(error)
     }
-
-    // edit the guide
-
-    // edit the steps
-
-    response.status(200).json({"message": "Hello World", "guideId": request.params.guideId, "guide": request.body})
 })
 
 // delete a guide

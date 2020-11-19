@@ -2,10 +2,10 @@ const db = require('../config')
 
 const Step = require("./stepModel")
 
-async function getGuides(id = false) {
+async function getGuides(guideId = false) {
     let guides
-    if (id) {
-        guides = await db('guides').where('id', id)
+    if (guideId) {
+        guides = await db('guides').where('id', guideId)
     } else {
         guides = await db('guides')
     }
@@ -30,8 +30,8 @@ async function createGuide(data) {
     return id
 }
 
-async function updateGuide(id, guide) {
-
+async function updateGuide(guideId, data) {
+    return db('guides').where('id', guideId).update({title: data.title, description: data.description, userId: data.userId})
 }
 
 async function deleteGuide(id) {
