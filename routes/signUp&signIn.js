@@ -67,7 +67,7 @@ router.post('/SignIn', async (req, res, next)=> {
 
 router.get('/', async (req, res,next)=> {
     try{
-        const users = await User.find()
+        const users = await User.findAllUsers()
         res.status(201).json(users)
     }
     catch(err){
@@ -92,6 +92,18 @@ router.get('/:id', async (req,res,next)=> {
         next(err)
     }
 })
+
+router.get(':id/stories', async (req, res, next)=> {
+    try{
+        const id = req.params.id
+
+
+    }
+    catch(err){
+        next(err)
+    }
+})
+
 
 
 

@@ -21,7 +21,8 @@ async function findBy(username){
 
 async function findAllUsers(){
     return await db("users")
-        .select("*")
+        
+        
 }
 
 async function findUser(id){
