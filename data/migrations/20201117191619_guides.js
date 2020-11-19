@@ -5,6 +5,7 @@ exports.up = async function(knex) {
         table.string('title')
         table.text('description')
         table.integer('userId')
+            .notNullable()
             .references('id')
             .inTable('users')
             .onDelete('CASCADE')

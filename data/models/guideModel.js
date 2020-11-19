@@ -25,9 +25,9 @@ async function getGuides(id = false) {
 
 async function createGuide(data) {
     // title, description, userId
-    let guide = db('guides').insert({title: data.title, description: data.description, userId: data.userId})
+    let [id] = await db('guides').insert({title: data.title, description: data.description, userId: data.userId})
 
-    return guide
+    return id
 }
 
 async function updateGuide(id, guide) {
@@ -36,12 +36,11 @@ async function updateGuide(id, guide) {
 
 async function deleteGuide(id) {
     // find the guide, if guide exists delete
-    let guide = db('guides').where('id', id)
-
-    if (guide.length > 0) {
-        db('guides').where('id', id).delete()
-    } else {
-        // raise an error
+    try {
+        return db('guides').where('id', id).delete()
+    }
+    catch (error) {
+        return error
     }
 }
 

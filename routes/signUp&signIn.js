@@ -28,9 +28,7 @@ router.post('/SignUp', async (req, res, next)=>{
     }
 })
 
-
 router.post('/SignIn', async (req, res, next)=> {
-
     try{
 
         const {username, password} = req.body
@@ -65,12 +63,5 @@ router.post('/SignIn', async (req, res, next)=> {
         next(err)
     }
 })
-
-
-
-
-
-
-
 
 module.exports = router;
