@@ -9,22 +9,35 @@ const router = express.Router()
 
 // get all guides
 router.get('/', async (request, response, next) => {
-    let guides = await Guide.getGuides()
+    try {
+        let guides = await Guide.getGuides()
 
-    response.status(200).json({guides: guides})
+        response.status(200).json({guides: guides})
+    }
+    catch (error) {
+        next(error)
+    }
 })
 
 // get guide by id
 router.get('/:guideId', async (request, response, next) => {
-    let id = request.params.guideId
-    let guide = await Guide.getGuides(id)
+    try {
+        let id = request.params.guideId
+        let guide = await Guide.getGuides(id)
 
-    response.status(200).json({guide: guide})
+        if (guide.length > 0) {
+            response.status(200).json({guide: guide})
+        } else {
+            response.status(404).json({"message": "Guide not found."})
+        }
+    }
+    catch (error) {
+        next(error)
+    }
 })
 
 // create a guide
 router.post('/', async (request, response, next) => {
-
     if (request.body.title && request.body.userId) {
         let data = {
             title: request.body.title,
@@ -42,6 +55,7 @@ router.post('/', async (request, response, next) => {
                 return Step.createStep(step, guideId)
             })
 
+            // wait for all of the steps to finish creating then return the guide with it's steps
             return Promise.all([steps])
                 .then( async (values) => {
                     return response.status(200).json({guide: await Guide.getGuides(guideId)})
@@ -60,6 +74,13 @@ router.post('/', async (request, response, next) => {
 
 // edit a guide
 router.put('/:guideId', async (request, response, next) => {
+    try {
+
+    }
+    catch (error) {
+        next(error)
+    }
+
     // edit the guide
 
     // edit the steps
