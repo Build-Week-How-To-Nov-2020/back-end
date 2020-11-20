@@ -63,7 +63,7 @@ router.post('/', async (request, response, next) => {
             // wait for all of the steps to finish creating then return the guide with it's steps
             Promise.all(steps)
                 .then( async (values) => {
-                    return response.status(200).json({guide: await Guide.getGuides(guideId)})
+                    return response.status(200).json(await Guide.getGuides(guideId))
                 })
                 .catch((error) => {
                     console.error(error)
@@ -100,7 +100,7 @@ router.put('/:guideId', async (request, response, next) => {
         // wait for the all the promises to finish then return the result
         Promise.all(steps)
             .then(async (values) => {
-                return response.status(200).json({guide: await Guide.getGuides(id)})
+                return response.status(200).json(await Guide.getGuides(id))
             })
             .catch((error) => {
                 console.error(error)
