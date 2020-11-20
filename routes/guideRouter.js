@@ -47,8 +47,8 @@ router.post('/', async (request, response, next) => {
         let data = {
             title: request.body.title,
             description: request.body.description,
-            userId: request.body.userId,
-            steps: request.body.steps || []
+            steps: request.body.steps || [],
+            userId: request.body.userId
         }
 
         try {

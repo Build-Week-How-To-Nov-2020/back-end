@@ -32,11 +32,17 @@ async function getGuides(guideId = false) {
 async function createGuide(data) {
     // title, description, userId
     try {
-        let [id] = await db('guides').insert({title: data.title, description: data.description, userId: parseInt(data.userId)})
+        let guide = {
+            title: data.title,
+            description: data.description,
+            userId: parseInt(data.userId)
+        }
+        let [id] = await db('guides').insert(guide, 'id')
 
         return id
     }
     catch (error) {
+        console.log(error)
         return error
     }
 }

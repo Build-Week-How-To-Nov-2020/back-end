@@ -4,7 +4,7 @@ exports.up = async function(knex) {
         table.increments('id')
         table.string('title')
         table.text('description')
-        table.foreign('userId')
+        table.integer('userId')
             .notNullable()
             .references('id')
             .inTable('users')
