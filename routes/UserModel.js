@@ -22,7 +22,6 @@ async function findBy(username){
 async function findAllUsers(){
     return await db("users")
         
-        
 }
 
 async function findUser(id){
@@ -31,8 +30,19 @@ async function findUser(id){
     .first("username", "id")
 }
 
-async function findUsersStories(id){
-    return await db("users")
+async function findUsersHowTos(id){
+    return await db("howTo")
+       
+        
+           .innerJoin("users.id", "users.username")
+           .where("howTo.users_id", id)
+        .select([
+            "howTo.id",
+            "howTo.howToName",
+            "howTo.howToStory",
+            "users.username",
+            "users.id"
+        ])
         
 }
 
@@ -43,4 +53,5 @@ module.exports = {
     findByUserId,
     findAllUsers,
     findUser,
+    findUsersHowTos,
 }

@@ -93,9 +93,10 @@ router.get('/:id', async (req,res,next)=> {
     }
 })
 
-router.get(':id/stories', async (req, res, next)=> {
+router.get(':id/howTo', async (req, res, next)=> {
     try{
-        const id = req.params.id
+        const howTo = await User.findUsersHowTos(req.params.id)
+        res.json(howTo)
 
 
     }
