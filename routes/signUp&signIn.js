@@ -32,6 +32,7 @@ router.post('/SignUp', async (req, res, next)=>{
 
 
 router.post('/SignIn', async (req, res, next)=> {
+
     try{
         const {username, password} = req.body
         const existingUser = await User.findBy(username)
