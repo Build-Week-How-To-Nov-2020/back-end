@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
     development: {
       client: 'sqlite3',
@@ -13,6 +15,20 @@ module.exports = {
           conn.run("PRAGMA foreign_keys = ON", done)
         },
       },
+    },
+    production: {
+      client: 'pg',
+      connection: process.env.DATABASE_URL,
+      migrations: {
+        directory: './data/migrations',
+        tableName: 'dbmigrations',
+      },
+      seeds: { directory: './data/seeds' },
+      // pool: {
+      //   afterCreate: (conn, done) => {
+      //     conn.run("PRAGMA foreign_keys = ON", done)
+      //   },
+      // },
     }
   };
   

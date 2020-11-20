@@ -1,7 +1,9 @@
 const router = require("express").Router()
+require("dotenv").config();
 const bcrypt = require("bcryptjs")
 const User = require("./UserModel")
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const { findBy } = require("./UserModel");
 
 
 router.post('/SignUp', async (req, res, next)=>{
@@ -28,9 +30,10 @@ router.post('/SignUp', async (req, res, next)=>{
     }
 })
 
-router.post('/SignIn', async (req, res, next)=> {
-    try{
 
+router.post('/SignIn', async (req, res, next)=> {
+
+    try{
         const {username, password} = req.body
         const existingUser = await User.findBy(username)
 
@@ -39,15 +42,13 @@ router.post('/SignIn', async (req, res, next)=> {
                 message: "Invalid Credentials"
             })
         }
-
+        console.log(existingUser)
         const passwordValid = await bcrypt.compareSync(password, existingUser.password)
-
         if(!passwordValid) {
             return res.status(401).json({
                 message: "That's not the password"
             })
         }
-
         const token = jwt.sign({
             userID: existingUser.id,
         }, process.env.JWT_SECRET)
@@ -55,7 +56,7 @@ router.post('/SignIn', async (req, res, next)=> {
         res.cookie("token", token)
 
         res.json({
-            message: `Welcome ${existingUser.username}`
+            message: `Welcome ${existingUser.username}`,token
         })
 
     }
@@ -63,5 +64,53 @@ router.post('/SignIn', async (req, res, next)=> {
         next(err)
     }
 })
+
+
+router.get('/', async (req, res,next)=> {
+    try{
+        const users = await User.findAllUsers()
+        res.status(201).json(users)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+router.get('/:id', async (req,res,next)=> {
+    try{
+        const id = req.params.id;
+        const user = await User.findUser(id)
+
+        if(!user){
+            return res.status(401).json({
+                message: "This user does not exisit"
+            })
+        }
+
+        res.status(201).json(user)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+router.get(':id/howTo', async (req, res, next)=> {
+    try{
+        const howTo = await User.findUsersHowTos(req.params.id)
+        res.json(howTo)
+
+
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+
+
+
+
+
+
 
 module.exports = router;

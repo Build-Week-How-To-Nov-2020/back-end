@@ -7,7 +7,7 @@ exports.up = async function(knex) {
     })
 
     await knex.schema.createTable("howTo", (table)=> {
-        table.increments("id")
+        table.increments("id").unique()
         table.text("howToName")
         table.text("howToStory")
         table.integer("users_id")
