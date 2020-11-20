@@ -4,12 +4,14 @@ const Step = require("./stepModel")
 
 async function getGuides(guideId = false) {
     try {
-        let guides
-        if (guideId) {
-            return guides = await db('guides').where('id', guideId)
-        } else {
-            return guides = await db('guides')
-        }
+        return await db('guides')
+
+        // let guides
+        // if (guideId) {
+        //     return await db('guides').where('id', guideId)
+        // } else {
+        //     return await db('guides')
+        // }
         //
         // let steps = guides.map((guide) => {
         //     return getStepRelation(guide)
