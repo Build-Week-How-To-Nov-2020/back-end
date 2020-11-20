@@ -4,29 +4,27 @@ const Step = require("./stepModel")
 
 async function getGuides(guideId = false) {
     try {
-        return await db('guides')
+        let guides
+        if (guideId) {
+            guides = await db('guides').where('id', guideId)
+        } else {
+            guides = await db('guides')
+        }
 
-        // let guides
-        // if (guideId) {
-        //     return await db('guides').where('id', guideId)
-        // } else {
-        //     return await db('guides')
-        // }
-        //
-        // let steps = guides.map((guide) => {
-        //     return getStepRelation(guide)
-        // })
-        //
-        // return Promise.all(steps)
-        //     .then((values) => {
-        //         return values
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     })
+        let steps = guides.map((guide) => {
+            return getStepRelation(guide)
+        })
+
+        return Promise.all(steps)
+            .then((values) => {
+                return values
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
     catch (error) {
-        return error
+        return {'error': error}
     }
 }
 

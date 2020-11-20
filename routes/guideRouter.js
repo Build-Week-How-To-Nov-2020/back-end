@@ -12,7 +12,12 @@ router.get('/', async (request, response, next) => {
     try {
         let guides = await Guide.getGuides()
 
-        response.json(guides)
+        if (guides.error) {
+            response.status(500).json(guides)
+        }
+        else {
+            response.status(200).json(guides)
+        }
     }
     catch (error) {
         next(error)
@@ -26,7 +31,7 @@ router.get('/:guideId', async (request, response, next) => {
         let guide = await Guide.getGuides(id)
 
         if (guide.length > 0) {
-            response.status(200).json({guide: guide})
+            response.status(200).json(guide)
         } else {
             response.status(404).json({"message": "Guide not found."})
         }
