@@ -19,9 +19,16 @@ async function getStepsForGuide(guideId) {
 }
 
 async function createStep(data, guideId) {
+
+    let step = {
+        title: data.title,
+        instruction: data.instruction,
+        guideId: parseInt(guideId)
+    }
+
     try {
         if (typeof guideId !== "undefined") {
-            let [id] = await db('steps').insert({title: data.title, instruction: data.instruction, guideId: guideId})
+            let [id] = await db('steps').insert(step, 'id')
             return id
         } else {
             return -1

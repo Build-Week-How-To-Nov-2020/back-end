@@ -42,7 +42,6 @@ async function createGuide(data) {
         return id
     }
     catch (error) {
-        console.log(error)
         return error
     }
 }
