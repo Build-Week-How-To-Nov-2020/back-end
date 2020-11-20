@@ -6,22 +6,22 @@ async function getGuides(guideId = false) {
     try {
         let guides
         if (guideId) {
-            guides = await db('guides').where('id', guideId)
+            return guides = await db('guides').where('id', guideId)
         } else {
-            guides = await db('guides')
+            return guides = await db('guides')
         }
-
-        let steps = guides.map((guide) => {
-            return getStepRelation(guide)
-        })
-
-        return Promise.all(steps)
-            .then((values) => {
-                return values
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        //
+        // let steps = guides.map((guide) => {
+        //     return getStepRelation(guide)
+        // })
+        //
+        // return Promise.all(steps)
+        //     .then((values) => {
+        //         return values
+        //     })
+        //     .catch((error) => {
+        //         console.log(error)
+        //     })
     }
     catch (error) {
         return error

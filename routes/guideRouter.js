@@ -13,6 +13,13 @@ router.get('/', async (request, response, next) => {
         let guides = await Guide.getGuides()
 
         response.status(200).json({guides: guides})
+
+        // if() {
+        //     response.status(200).json({guides: guides})
+        // }
+        // else {
+        //
+        // }
     }
     catch (error) {
         next(error)
