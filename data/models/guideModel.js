@@ -2,6 +2,7 @@ const db = require('../config')
 
 const Step = require("./stepModel")
 
+//get a single guide with an ID or it returns a list of all guides
 async function getGuides(guideId = false) {
     try {
         let guides
@@ -31,7 +32,7 @@ async function getGuides(guideId = false) {
 async function createGuide(data) {
     // title, description, userId
     try {
-        let [id] = await db('guides').insert({title: data.title, description: data.description, userId: data.userId})
+        let [id] = await db('guides').insert({title: data.title, description: data.description, userId: parseInt(data.userId)})
 
         return id
     }
